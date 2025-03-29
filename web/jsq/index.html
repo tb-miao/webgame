@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二次元现代化计算器</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(45deg, #f0f8ff, #b0e0e6);
+            background-image: url('https://pic2.zhimg.com/v2-febc9228d18886a29c68a66536279dfb_r.jpg?source=1940ef5c');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        #display {
+            width: calc(100% - 20px);
+            height: 80px;
+            font-size: 32px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 15px;
+            background: #e0ffff;
+            text-align: right;
+            padding: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #87cefa, #6495ed);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button.operator {
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+        }
+
+        button.operator:hover {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+        }
+
+        .anime-character {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://tse1-mm.cn.bing.net/th/id/OIP-C.xdsjs_4kMo8q0LTa52IBDgHaHa?rs=1&pid=ImgDetMain');
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .top-left {
+            top: -50px;
+            left: -50px;
+        }
+
+        .top-right {
+            top: -50px;
+            right: -50px;
+        }
+
+        .bottom-left {
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .bottom-right {
+            bottom: -50px;
+            right: -50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="anime-character top-left"></div>
+        <div class="anime-character top-right"></div>
+        <div class="anime-character bottom-left"></div>
+        <div class="anime-character bottom-right"></div>
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button class="operator" onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button class="operator" onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button class="operator" onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button class="operator" onclick="appendToDisplay('+')">+</button>
+            <button onclick="clearDisplay()">C</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            try {
+                document.getElementById('display').value = eval(document.getElementById('display').value);
+            } catch (error) {
+                document.getElementById('display').value = '错误';
+            }
+        }
+    </script>
+</body>
+
+</html>
+    
