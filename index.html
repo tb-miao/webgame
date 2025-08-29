@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TBMAOMAO-滑动拼图验证码</title>
+    <link rel="icon" href="./assets/images/_preview.ico">
+    <title>验证</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +13,8 @@
         }
 
         body {
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Kyoji', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff728c 0%, #ffd7e2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,7 +23,7 @@
         }
 
         .captcha-container {
-            background: white;
+            background: #fff;
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -43,7 +44,7 @@
             position: relative;
             width: 100%;
             height: 240px;
-            background: #f8f9fa;
+            background: #e6f7ff;
             overflow: hidden;
         }
 
@@ -58,25 +59,27 @@
             position: absolute;
             width: 60px;
             height: 60px;
-            background: white;
-            border: 2px solid #ddd;
+            background: #ffdd9f;
+            border: 2px solid #ffaaa8;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10;
+            border-radius: 16px;
         }
 
         .puzzle-hole {
             position: absolute;
             width: 60px;
             height: 60px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(255, 174, 174, 0.5);
             border: 2px dashed #fff;
             z-index: 5;
+            border-radius: 16px;
         }
 
         .slider-container {
             padding: 20px;
-            background: #f8f9fa;
+            background: #e6f7ff;
         }
 
         .slider-track {
@@ -94,7 +97,7 @@
             top: 0;
             left: 0;
             height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            background: linear-gradient(90deg, #b3d4fc, #b3fc9f);
             width: 0%;
             transition: width 0.3s ease;
             border-radius: 25px;
@@ -106,10 +109,10 @@
             left: 3px;
             width: 44px;
             height: 44px;
-            background: white;
+            background: #ffdd9f;
             border-radius: 50%;
             cursor: grab;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -119,13 +122,13 @@
 
         .slider-button:active {
             cursor: grabbing;
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(5deg);
         }
 
         .slider-button::after {
             content: "→";
             font-size: 18px;
-            color: #666;
+            color: #ff6f61;
             font-weight: bold;
         }
 
@@ -134,7 +137,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #666;
+            color: #ff6f61;
             font-size: 14px;
             pointer-events: none;
             z-index: 5;
@@ -158,22 +161,22 @@
         }
 
         .btn-verify {
-            background: #4CAF50;
+            background: #ff6f61;
             color: white;
         }
 
         .btn-verify:hover {
-            background: #45a049;
+            background: #ff4d4d;
             transform: translateY(-2px);
         }
 
         .btn-refresh {
-            background: #2196F3;
+            background: #61dafb;
             color: white;
         }
 
         .btn-refresh:hover {
-            background: #1976D2;
+            background: #2196f3;
             transform: translateY(-2px);
         }
 
@@ -225,7 +228,7 @@
 <body>
     <div class="captcha-container">
         <div class="captcha-header">
-            🧩 滑动拼图验证
+            🧩 验证
         </div>
         
         <div class="puzzle-container" id="puzzleContainer">
@@ -237,13 +240,16 @@
         <div class="slider-container">
             <div class="slider-track" id="sliderTrack">
                 <div class="slider-bg" id="sliderBg"></div>
-                <div class="slider-button" id="sliderButton"></div>
+                <div class="slider-button" id="sliderButton">
+                    <img src="https://via.placeholder.com/20" alt="拖动图标" style="width: 20px; height: 20px;">
+                </div>
+
                 <div class="slider-text" id="sliderText">向右拖动滑块完成拼图</div>
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-verify" id="verifyBtn">请点击验证</button>
+            <button class="btn btn-verify" id="verifyBtn">验证</button>
             <button class="btn btn-refresh" id="refreshBtn">刷新</button>
         </div>
         
@@ -338,9 +344,10 @@
             }
 
             onImageLoad() {
-                // 图片加载完成后更新拼图块背景
-                this.updatePieceBackground();
+            // 图片加载完成后更新拼图块背景
+            this.updatePieceBackground();
             }
+
 
             updatePieceBackground() {
                 const rect = this.puzzleBg.getBoundingClientRect();
@@ -371,28 +378,29 @@
             }
 
             handleMove(e) {
-                if (!this.isDragging || this.isCompleted) return;
+             if (!this.isDragging || this.isCompleted) return;
 
-                const currentX = this.getEventX(e);
-                const deltaX = currentX - this.startX;
-                
-                // 允许滑块在整个滑道范围内移动
-                const newX = Math.max(0, Math.min(deltaX, this.maxSlideDistance));
+            const currentX = this.getEventX(e);
+         const deltaX = currentX - this.startX;
+    
+            // 允许滑块在整个滑道范围内移动
+         const newX = Math.max(0, Math.min(deltaX, this.maxSlideDistance));
 
-                // 更新滑块位置
-                this.sliderButton.style.left = (newX + 3) + 'px';
-                this.sliderBg.style.width = ((newX / this.maxSlideDistance) * 100) + '%';
+         // 更新滑块位置
+         this.sliderButton.style.left = (newX + 3) + 'px';
+         this.sliderBg.style.width = ((newX / this.maxSlideDistance) * 100) + '%';
 
-                // 更新拼图块位置 - 拼图块移动距离与滑块成比例，但可以超过挖空位置
-                const progress = newX / this.maxSlideDistance;
-                const maxPieceMovement = this.container.offsetWidth - this.pieceX - 60; // 容器宽度减去拼图块宽度
-                const pieceCurrentX = this.pieceX + (progress * maxPieceMovement);
-                this.puzzlePiece.style.left = pieceCurrentX + 'px';
+         // 更新拼图块位置 - 拼图块移动距离与滑块成比例，但可以超过挖空位置
+         const progress = newX / this.maxSlideDistance;
+          const maxPieceMovement = this.container.offsetWidth - this.pieceX - 60; // 容器宽度减去拼图块宽度
+          const pieceCurrentX = Math.max(this.pieceX, Math.min(this.container.offsetWidth - this.puzzlePiece.offsetWidth, this.pieceX + (progress * maxPieceMovement)));
+          this.puzzlePiece.style.left = pieceCurrentX + 'px';
 
-                this.currentX = newX;
+         this.currentX = newX;
 
-                e.preventDefault();
-            }
+            e.preventDefault();
+         }
+
 
             handleEnd(e) {
                 if (!this.isDragging) return;
@@ -425,36 +433,38 @@
             }
 
             complete() {
-                this.isCompleted = true;
-                
-                // 精确对齐 - 拼图块对齐到缺口位置
-                this.puzzlePiece.style.left = this.holeX + 'px';
-                
-                // 滑块对齐到对应位置 - 计算正确的滑块位置
-                const maxPieceMovement = this.container.offsetWidth - this.pieceX - 60;
-                const requiredProgress = (this.holeX - this.pieceX) / maxPieceMovement;
-                const correctSliderPosition = requiredProgress * this.maxSlideDistance;
-                this.sliderButton.style.left = (correctSliderPosition + 3) + 'px';
-                this.sliderBg.style.width = (requiredProgress * 100) + '%';
-                this.sliderBg.style.background = 'linear-gradient(90deg, #4CAF50, #8BC34A)';
-                
-                // 更新文本和按钮
-                this.sliderText.textContent = '验证成功！';
-                this.sliderText.style.color = '#FFFFFF';
-                this.sliderText.style.left = '10px'; // 文字显示在绿色区域左侧
-                this.sliderText.style.transform = 'translateY(-50%)'; // 只保持垂直居中
-                this.sliderText.style.textAlign = 'left';
-                this.sliderButton.style.background = '#4CAF50';
-                this.sliderButton.innerHTML = '✓';
-                
-                // 显示成功动画
-                this.container.classList.add('success');
-                setTimeout(() => {
-                    this.container.classList.remove('success');
-                }, 600);
+    this.isCompleted = true;
+    
+    // 精确对齐 - 拼图块对齐到缺口位置
+    this.puzzlePiece.style.left = this.holeX + 'px';
+    
+    // 滑块对齐到对应位置 - 计算正确的滑块位置
+    const maxPieceMovement = this.container.offsetWidth - this.pieceX - 60; // 容器宽度减去拼图块宽度
+    const requiredProgress = (this.holeX - this.pieceX) / maxPieceMovement;
+    const correctSliderPosition = requiredProgress * this.maxSlideDistance;
+    this.sliderButton.style.left = (correctSliderPosition + 3) + 'px';
+    this.sliderBg.style.width = (requiredProgress * 100) + '%';
+    this.sliderBg.style.background = 'linear-gradient(90deg, #ff6f61, #61dafb)';
+    
+    // 更新文本和按钮
+    this.sliderText.textContent = '验证成功！';
+    this.sliderText.style.color = '#FFFFFF';
+    this.sliderText.style.left = '10px'; // 文字显示在绿色区域左侧
+    this.sliderText.style.transform = 'translateY(-50%)'; // 只保持垂直居中
+    this.sliderText.style.textAlign = 'left';
+    this.sliderButton.style.background = '#ff6f61';
+    this.sliderButton.innerHTML = '✓';
+    
+    // 显示成功动画
+    this.container.classList.add('success');
+    setTimeout(() => {
+        this.container.classList.remove('success');
+    }, 600);
 
-                this.showStatus('验证成功！拼图完成！', 'success');
-            }
+    this.showStatus('验证成功！拼图完成！', 'success');
+        window.location.href = 'in.html';
+}
+
 
             reset() {
                 // 震动效果
@@ -469,32 +479,38 @@
                 }, 300);
 
                 this.showStatus('位置不正确，请重试', 'error');
+
+                // 添加自动刷新功能
+                setTimeout(() => {
+                    this.refresh();
+                }, 1000);
             }
 
             resetSlider() {
                 this.currentX = 0;
                 this.sliderButton.style.left = '3px';
                 this.sliderBg.style.width = '0%';
-                this.sliderBg.style.background = 'linear-gradient(90deg, #4CAF50, #8BC34A)';
+                this.sliderBg.style.background = 'linear-gradient(90deg, #ff6f61, #61dafb)';
                 this.puzzlePiece.style.left = this.pieceX + 'px';
                 this.sliderText.textContent = '向右拖动滑块完成拼图';
-                this.sliderText.style.color = '#666';
+                this.sliderText.style.color = '#ff6f61';
                 this.sliderText.style.left = '50%'; // 重置为居中
                 this.sliderText.style.transform = 'translate(-50%, -50%)'; // 重置为完全居中
                 this.sliderText.style.textAlign = 'center';
-                this.sliderButton.style.background = 'white';
+                this.sliderButton.style.background = '#ffdd9f';
                 this.sliderButton.innerHTML = '';
                 this.isCompleted = false;
             }
 
             verify() {
-                if (this.isCompleted) {
-                    this.showStatus('验证通过！', 'success');
-                    window.location.href = 'in.html';
-                } else {
-                    this.showStatus('请先完成拼图验证', 'error');
-                }
-            }
+    if (this.isCompleted) {
+        this.showStatus('验证通过！', 'success');
+        this.verifyBtn.disabled = true; // 禁用验证按钮
+    } else {
+        this.showStatus('请先完成拼图验证', 'error');
+    }
+}
+
 
             refresh() {
                 // 添加加载效果
